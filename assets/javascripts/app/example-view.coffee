@@ -1,6 +1,6 @@
-define ['jquery', 'templates'], ($, templates) ->
+define ['jquery', 'backbone', 'templates'], ($, Backbone, templates) ->
 
-  class ExampleView
+  class ExampleView extends Backbone.View
 
     render: (element) ->
       templates.render 'example', {name:'Dust', css:'stylus'}, (err, out) ->
