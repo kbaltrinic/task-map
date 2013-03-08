@@ -29,7 +29,8 @@ define [
     # of the app doesn't change.
     render: (element) ->
       if element?
-        templates.render 'app-view', @model, (err, out) -> $(element).append out
+        templates.render 'app-view', @model, (err, out) => 
+          @setElement($(element).append(out)[0])
         @input = $("#new-todo")
         @allCheckbox = $("#toggle-all")[0]
         @listenTo @model, "add", @addOne
