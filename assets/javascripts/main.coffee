@@ -7,7 +7,7 @@ require
       deps: ["underscore", "jquery"],
       exports: "Backbone"
   paths:
-    jquery: 'vendor/jquery'
+    jquery: 'vendor/jquery-1.9.1'
     underscore: 'vendor/underscore'
     backbone:   'vendor/backbone'
   , ['app/example-view']
