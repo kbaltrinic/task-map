@@ -30,7 +30,7 @@ define [
     # of the app doesn't change.
     render: (element) ->
       if @neverPreviouslyRendered
-        templates.render 'app-view', @model, (err, out) => 
+        templates.render 'app-view', {}, (err, out) => 
           @setElement($(element).append(out)[0])
         @input = $("#new-todo")
         @allCheckbox = $("#toggle-all")[0]
@@ -40,6 +40,7 @@ define [
         @footer = @$("footer")
         @main = $("#main")
         @statsTemplate = _.template(@$("#stats-template").html())
+        @addAll()
         @neverPreviouslyRendered = false
         
       done = @model.done().length
