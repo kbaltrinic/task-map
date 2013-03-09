@@ -10,10 +10,6 @@ define [
     #... is a list tag.
     tagName: "li"
     
-    # TODO: Fix this
-    # Cache the template function for a single item.
-    #template: _.template($("#item-template").html())
-    
     # The DOM events specific to an item.
     events:
       "click .toggle": "toggleDone"
@@ -33,7 +29,8 @@ define [
     
     # Re-render the titles of the todo item.
     render: ->
-      @$el.html @template(@model.toJSON())
+      templates.render 'task-view', @model.attributes, (err, out) => 
+        @$el.html out
       @$el.toggleClass "done", @model.get("done")
       @input = @$(".edit")
       this
