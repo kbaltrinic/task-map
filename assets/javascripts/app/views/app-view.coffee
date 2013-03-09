@@ -24,11 +24,12 @@ define [
     initialize: ->
       @model = new Todos()
       @model.fetch()
+      @neverPreviouslyRendered = true
     
     # Re-rendering the App just means refreshing the statistics -- the rest
     # of the app doesn't change.
     render: (element) ->
-      if element?
+      if @neverPreviouslyRendered
         templates.render 'app-view', @model, (err, out) => 
           @setElement($(element).append(out)[0])
         @input = $("#new-todo")
@@ -38,8 +39,8 @@ define [
         @listenTo @model, "all", @render
         @footer = @$("footer")
         @main = $("#main")
-        #TODO Fix this!
-        #@statsTemplate = _.template($("#stats-template").html())
+        @statsTemplate = _.template(@$("#stats-template").html())
+        @neverPreviouslyRendered = false
         
       done = @model.done().length
       remaining = @model.remaining().length
