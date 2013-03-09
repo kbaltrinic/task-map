@@ -26,12 +26,12 @@ define [
       @model.fetch()
       @neverPreviouslyRendered = true
     
-    # Re-rendering the App just means refreshing the statistics -- the rest
-    # of the app doesn't change.
     render: (element) ->
+      # Re-rendering the App just means refreshing the statistics -- the rest
+      # of the app doesn't change. So we only need to fully render it one
       if @neverPreviouslyRendered
         templates.render 'app-view', {}, (err, out) => 
-          @setElement($(element).append(out)[0])
+          @setElement $(element).html out 
         @input = $("#new-todo")
         @allCheckbox = $("#toggle-all")[0]
         @listenTo @model, "add", @addOne
