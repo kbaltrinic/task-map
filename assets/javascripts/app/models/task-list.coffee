@@ -12,7 +12,13 @@ define [
   
     # Reference to this collection's model.
     model: Todo
-  
+
+    #Override default implementation to ensure models have an asigned order
+    add: (models, options) ->
+      models = if _.isArray(models) then models else [models]
+      model.order = @nextOrder for model in models when model.order
+      super models, options
+      
     # Save all of the todo items under the `"todos-backbone"` namespace.
     localStorage: new Backbone.LocalStorage("todos-backbone")
   
@@ -20,7 +26,6 @@ define [
     done: ->
       @filter (todo) ->
         todo.get "done"
-
 
   
     # Filter down the list to only todo items that are still not finished.

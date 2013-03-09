@@ -7,7 +7,7 @@ define [
     # Default attributes for the todo item.
     defaults: ->
       title: "empty todo..."
-      order: Todos.nextOrder()
+      order: undefined
       done: false
 
     

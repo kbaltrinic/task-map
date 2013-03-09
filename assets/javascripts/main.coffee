@@ -1,5 +1,5 @@
 require
-  urlArgs: "b=#{(new Date()).getTime()}"
+  #urlArgs: "b=#{(new Date()).getTime()}"
   shim: 
     underscore: 
       exports: '_'
