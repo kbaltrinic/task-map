@@ -10,8 +10,9 @@ define [
   'backbone', 
   'templates', 
   'app/models/task-list',
-  'app/views/task-view'
-  ], ($, _, Backbone, templates, Todos, TodoView) ->
+  'app/views/task-view',
+  'app/views/stats-viewmodel'
+  ], ($, _, Backbone, templates, Todos, TodoView, StatsViewModel) ->
   
   class AppView extends Backbone.View
     
@@ -24,6 +25,7 @@ define [
     initialize: ->
       @model = new Todos()
       @model.fetch()
+      @statsModel = new StatsViewModel(@model)
       @neverPreviouslyRendered = true
     
     render: (element) ->
@@ -39,24 +41,19 @@ define [
         @listenTo @model, "all", @render
         @footer = @$("footer")
         @main = $("#main")
-        @statsTemplate = _.template(@$("#stats-template").html())
         @addAll()
         @neverPreviouslyRendered = false
         
-      done = @model.done().length
-      remaining = @model.remaining().length
-      if @model.length
+      if @statsModel.showStats
+        templates.render 'stats-view', @statsModel, (err, out) => 
+          @footer.html out 
         @main.show()
         @footer.show()
-        @footer.html @statsTemplate(
-          done: done
-          remaining: remaining
-        )
       else
         @main.hide()
         @footer.hide()
         
-      @allCheckbox.checked = not remaining
+      @allCheckbox.checked = not @statsModel.remaining
     
     # Add a single todo item to the list by creating a view for it, and
     # appending its element to the `<ul>`.
