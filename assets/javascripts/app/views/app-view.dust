@@ -27,4 +27,5 @@
   <br />
   <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
   <br />Rewritten by: <a href="http://addyosmani.github.com/todomvc">TodoMVC</a>.
+  <br />Adapted for use with Mimosa, using ReqireJS, dust and Stylus by: <a href="http://blog.baltrinic.com">Ken Baltrinic</a>.
 </div>
