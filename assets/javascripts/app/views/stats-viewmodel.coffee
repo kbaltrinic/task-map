@@ -1,7 +1,6 @@
 define [], () ->
   class StatsViewModel
-    constructor: (taskList) ->
-      @taskList = taskList
+    constructor: (@taskList) ->
       
     showStats: => @taskList.length > 0
     someAreDone: => @done() > 0 
