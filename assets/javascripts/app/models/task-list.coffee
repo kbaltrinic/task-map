@@ -16,7 +16,7 @@ define [
     #Override default implementation to ensure models have an asigned order
     add: (models, options) ->
       models = if _.isArray(models) then models else [models]
-      model.order = @nextOrder for model in models when model.order
+      model.set 'order', @nextOrder() for model in models when not model.id
       super models, options
       
     # Filter down the list of all todo items that are finished.
