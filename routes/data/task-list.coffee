@@ -33,6 +33,11 @@ class TaskListRoutes
     fs.writeFile dataFileName, JSON.stringify taskList
     res.json {id: newId}
 
+  delete: (req, res) ->
+    id = req.params.id
+    delete taskList[id]
+    fs.writeFile dataFileName, JSON.stringify taskList
+
   generateUUID = ->
     d = new Date().getTime()
     uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) ->
