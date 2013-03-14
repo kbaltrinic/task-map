@@ -1,20 +1,21 @@
+_ =  require 'lodash'
 fs = require 'fs'
 
 class TaskListRoutes
 
-  taskList = [
-    title: "Test Task 1"
-    order: 1
-    done: false
-  ,
-    title: "Test Task 2"
-    order: 2
-    done: true
-  ,
-    title: "Test Task 3"
-    order: 3
-    done: false
-  ]
+  taskList = 
+    '1':
+      title: "Test Task 1"
+      order: 1
+      done: false
+    '2':
+      title: "Test Task 2"
+      order: 2
+      done: true
+    '3':
+      title: "Test Task 3"
+      order: 3
+      done: false
 
   constructor: (config) ->
 
@@ -25,6 +26,7 @@ class TaskListRoutes
         taskList = JSON.parse data
   
   get: (req, res) -> 
-    res.json taskList
-    
+    res.json _.map taskList, (task, id) ->
+      _.extend {id: id}, task
+      
 module.exports = TaskListRoutes
