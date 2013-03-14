@@ -43,3 +43,6 @@ what
 .tmproj
 nbproject
 Thumbs.db
+
+#temporary data files
+*.json

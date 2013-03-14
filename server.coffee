@@ -26,7 +26,10 @@ exports.startServer = (config, callback) ->
     app.use express.errorHandler()
 
   app.get '/', routes.index(config)
-  app.get '/data/task-list', new TaskListRoutes(config).get
 
+  taskListRountes = new TaskListRoutes(config)
+  app.get '/data/task-list', taskListRountes.get
+  app.put '/data/task-list/:id', taskListRountes.put
+  
   callback(server)
 
