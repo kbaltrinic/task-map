@@ -3,23 +3,13 @@ fs = require 'fs'
 
 class TaskListRoutes
 
-  taskList = 
-    '1':
-      title: "Test Task 1"
-      order: 1
-      done: false
-    '2':
-      title: "Test Task 2"
-      order: 2
-      done: true
-    '3':
-      title: "Test Task 3"
-      order: 3
-      done: false
-
+  dataFileName = 'data/task-list.json'
+ 
+  taskList = {}
+  
   constructor: (config) ->
 
-    fs.readFile 'task-list.json', (err, data) ->
+    fs.readFile dataFileName, (err, data) ->
       if err? 
         console.log(err)
       else
@@ -34,6 +24,6 @@ class TaskListRoutes
     updatedTask = req.body
     delete updatedTask.id
     taskList[id] = _.assign taskList[id], req.body
-    fs.writeFile 'task-list.json', JSON.stringify taskList
+    fs.writeFile dataFileName, JSON.stringify taskList
       
 module.exports = TaskListRoutes
