@@ -30,6 +30,7 @@ exports.startServer = (config, callback) ->
   taskListRountes = new TaskListRoutes(config)
   app.get '/data/task-list', taskListRountes.get
   app.put '/data/task-list/:id', taskListRountes.put
+  app.post '/data/task-list', taskListRountes.post
   
   callback(server)
 
