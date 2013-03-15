@@ -12,10 +12,10 @@ class TaskListRepo
   
   getTaskList: (callback)-> 
     try
-      list = _.map _taskList, (task, id) ->
+      listWithEmbededIds = _.map _taskList, (task, id) ->
         _.extend {id: id}, task
-      callback undefined, list
-      list
+      callback undefined, listWithEmbededIds
+      listWithEmbededIds
     catch e
       callback e
        
@@ -24,7 +24,7 @@ class TaskListRepo
       if _taskList[id]? 
         _taskList[id] = _.assign _taskList[id], task
         delete _taskList[id].id
-        saveToFile()
+        saveListToFile()
         updatedTask = _.extend _taskList[id], {id: id}
         callback undefined, updatedTask
         updatedTask
@@ -37,7 +37,7 @@ class TaskListRepo
     try
       newId = generateUUID()
       _taskList[newId] = task
-      saveToFile()
+      saveListToFile()
       newTask = _.extend task, {id: newId}
       callback undefined, newTask
       newTask
@@ -49,7 +49,7 @@ class TaskListRepo
       task = _taskList[id]
       if task? 
         delete _taskList[id]
-        saveToFile()
+        saveListToFile()
         callback undefined, task
         task
       else
@@ -64,7 +64,7 @@ class TaskListRepo
       else
         _taskList = JSON.parse data
     
-  saveToFile = ->
+  saveListToFile = ->
     fs.writeFile DATA_FILE_NAME, (JSON.stringify _taskList), (err) -> console.log err
   
   generateUUID = ->
