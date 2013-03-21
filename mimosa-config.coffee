@@ -114,6 +114,11 @@ exports.config = {
       # extension: 'jade'        # extension of your server views
       # path: 'views'            # path from the root of your project to your views	
 
+  serverReload:
+    watch:["server.coffee", "routes", "src", "lib"]
+    exclude:[]
+    validate:true
+
   # require:                 # configuration for requirejs options.
     # verify:                # settings for requirejs path verification
       # enabled: true        # Whether or not to perform verification

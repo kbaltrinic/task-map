@@ -1,50 +1,45 @@
-_ =  require 'lodash'
-fs = require 'fs'
+TaskListRepo =  require '../../src/task-list-repo'
 
 class TaskListRoutes
 
-  dataFileName = 'data/task-list.json'
- 
-  taskList = {}
+  repo = null;
   
   constructor: (config) ->
-
-    fs.readFile dataFileName, (err, data) ->
-      if err? 
-        console.log(err)
-      else
-        taskList = JSON.parse data
-  
+    repo = new TaskListRepo(config)
+    
   get: (req, res) -> 
-    res.json _.map taskList, (task, id) ->
-      _.extend {id: id}, task
-      
+    repo.getTaskList (err, taskList) ->
+      if err?
+        respondToError res, err
+      else
+        res.json taskList
+        
   put: (req, res) ->
-    id = req.params.id
-    updatedTask = req.body
-    delete updatedTask.id
-    taskList[id] = _.assign taskList[id], req.body
-    fs.writeFile dataFileName, JSON.stringify taskList
-
+    repo.update req.params.id, req.body, (err, updatedTask) -> 
+      if err?
+        respondToError res, err, req.params.id
+      else
+        res.json updatedTask
+        
   post: (req, res) ->
-    newTask = req.body
-    newId = generateUUID()
-    taskList[newId] = newTask
-    fs.writeFile dataFileName, JSON.stringify taskList
-    res.json {id: newId}
+    repo.add req.body, (err, newTask) -> 
+      if err?
+        respondToError res, err
+      else
+        res.json newTask
 
   delete: (req, res) ->
-    id = req.params.id
-    delete taskList[id]
-    fs.writeFile dataFileName, JSON.stringify taskList
+    repo.delete req.params.id, (err) -> 
+      if err?
+        respondToError res, err, req.params.id
+      else
+        res.send ""
 
-  generateUUID = ->
-    d = new Date().getTime()
-    uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) ->
-      r = (d + Math.random() * 16) % 16 | 0
-      d = Math.floor(d / 16)
-      ((if c is "x" then r else (r & 0x7 | 0x8))).toString 16
-    )
-    uuid
+  respondToError = (res, err, id)->
+    console.log "Error handling request: #{err}"
+    if err == TaskListRepo.NOT_FOUND 
+      res.send 404, {error: "No task found with Id: #{id}"}
+    else
+      res.send 500, {error: err}
       
 module.exports = TaskListRoutes
