@@ -76,8 +76,9 @@ define [
       return  unless @input.val()
       QuickEntryService.parse @input.val(), (model) => 
         @model.create model
-      @input.val ""
-
+      e.preventDefault()                #needed otherwise the CR takes effect after .val("") called creating a line 2 and leaving the cursor on it. 
+      @input.val("").trigger "autosize" #preventing default above causes autoresize to not resise automatically after .val("") called.
+      
     
     # Clear all done todo items, destroying their models.
     clearCompleted: ->
