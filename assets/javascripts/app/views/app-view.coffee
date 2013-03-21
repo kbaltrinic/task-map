@@ -70,7 +70,7 @@ define [
     # If you hit return in the main input field, create new **Todo** model,
     # persisting it to storage.
     createOnEnter: (e) ->
-      return  unless e.keyCode is 13
+      return  unless e.keyCode is 13 && e.shiftKey
       return  unless @input.val()
       @model.create title: @input.val()
       @input.val ""
