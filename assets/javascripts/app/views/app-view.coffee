@@ -12,8 +12,9 @@ define [
   'app/models/task-list',
   'app/views/task-view',
   'app/views/stats-viewmodel',
+  'app/domain/quick-entry-service',
   'vendor/jquery.autosize'
-  ], ($, _, Backbone, templates, Todos, TodoView, StatsViewModel) ->
+  ], ($, _, Backbone, templates, Todos, TodoView, StatsViewModel, QuickEntryService) ->
   
   class AppView extends Backbone.View
     
@@ -73,7 +74,8 @@ define [
     createOnEnter: (e) ->
       return  unless e.keyCode is 13 && e.shiftKey
       return  unless @input.val()
-      @model.create title: @input.val()
+      QuickEntryService.parse @input.val(), (model) => 
+        @model.create model
       @input.val ""
 
     
