@@ -21,6 +21,7 @@ define [
     # Delegated events for creating new items, and clearing completed ones.
     events:
       "keypress #new-todo": "createOnEnter"
+      "blur #new-todo": "createOnBlur"
       "click #clear-completed": "clearCompleted"
       "click #toggle-all": "toggleAllComplete"
     
@@ -78,8 +79,13 @@ define [
         @model.create model
       e.preventDefault()                #needed otherwise the CR takes effect after .val("") called creating a line 2 and leaving the cursor on it. 
       @input.val("").trigger "autosize" #preventing default above causes autoresize to not resise automatically after .val("") called.
-      
-    
+     
+    createOnBlur: (e) ->
+      return  unless @input.val()
+      QuickEntryService.parse @input.val(), (model) => 
+        @model.create model
+      @input.val("").trigger("autosize").focus() 
+
     # Clear all done todo items, destroying their models.
     clearCompleted: ->
       _.invoke @model.done(), "destroy"
