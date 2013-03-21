@@ -2,7 +2,7 @@
 
   <header>
     <h1>Todos</h1>
-    <textarea id="new-todo" placeholder="What needs to be done?" rows="1"/>
+    <textarea id="new-todo" placeholder="What needs to be done?" rows="1" autofocus/>
   </header>
 
   <section id="main">
