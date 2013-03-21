@@ -11,7 +11,8 @@ define [
   'templates', 
   'app/models/task-list',
   'app/views/task-view',
-  'app/views/stats-viewmodel'
+  'app/views/stats-viewmodel',
+  'vendor/jquery.autosize'
   ], ($, _, Backbone, templates, Todos, TodoView, StatsViewModel) ->
   
   class AppView extends Backbone.View
@@ -34,7 +35,7 @@ define [
       if @neverPreviouslyRendered
         templates.render 'app-view', {}, (err, out) => 
           @setElement $(element).html out 
-        @input = $("#new-todo")
+        @input = $("#new-todo").autosize()
         @allCheckbox = $("#toggle-all")[0]
         @listenTo @model, "add", @addOne
         @listenTo @model, "reset", @addAll
