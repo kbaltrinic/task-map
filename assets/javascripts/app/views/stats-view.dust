@@ -1,0 +1,4 @@
+{#someAreDone}
+  <a id="clear-completed">Clear {done} completed {#doneIsSingular}item{:else}items{/doneIsSingular}</a>
+{/someAreDone}
+<div class="todo-count"><b>{remaining}</b> {#remainingIsSingular}item{:else}items{/remainingIsSingular} left</div>
