@@ -2,6 +2,7 @@ express =        require 'express'
 engines =        require 'consolidate'
 
 routes  =        require './routes'
+TaskListRoutes = require './routes/data/task-list'
 
 exports.startServer = (config, callback) ->
 
@@ -26,5 +27,11 @@ exports.startServer = (config, callback) ->
 
   app.get '/', routes.index(config)
 
+  taskListRountes = new TaskListRoutes(config)
+  app.get '/data/task-list', taskListRountes.get
+  app.put '/data/task-list/:id', taskListRountes.put
+  app.post '/data/task-list', taskListRountes.post
+  app.delete '/data/task-list/:id', taskListRountes.delete
+  
   callback(server)
 

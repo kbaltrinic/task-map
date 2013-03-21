@@ -68,7 +68,7 @@ define [
 
     
     # If you hit return in the main input field, create new **Todo** model,
-    # persisting it to *localStorage*.
+    # persisting it to storage.
     createOnEnter: (e) ->
       return  unless e.keyCode is 13
       return  unless @input.val()

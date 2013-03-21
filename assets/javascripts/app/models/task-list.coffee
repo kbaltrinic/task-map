@@ -1,27 +1,24 @@
 # Todo Collection
 # ---------------
 
-# The collection of todos is backed by *localStorage* instead of a remote
-# server.
+# The collection of todos is backed by a remote server.
 define [
   'backbone', 
-  'app/models/task-model',
-  'storage'
+  'app/models/task-model'
   ], (Backbone, Todo) ->
   class TaskList extends Backbone.Collection
   
     # Reference to this collection's model.
     model: Todo
 
+    url: "data/task-list"
+
     #Override default implementation to ensure models have an asigned order
     add: (models, options) ->
       models = if _.isArray(models) then models else [models]
-      model.order = @nextOrder for model in models when model.order
+      model.set 'order', @nextOrder() for model in models when not model.id
       super models, options
       
-    # Save all of the todo items under the `"todos-backbone"` namespace.
-    localStorage: new Backbone.LocalStorage("todos-backbone")
-  
     # Filter down the list of all todo items that are finished.
     done: ->
       @filter (todo) ->
