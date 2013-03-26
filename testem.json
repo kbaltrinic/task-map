@@ -1,0 +1,6 @@
+{
+  "test_page": "testem/testem-with-require-js.html",
+  "before_tests": "node_modules/coffee-script/bin/coffee  -cb spec/",
+  "src_files": ["spec/**/*.coffee", "public/**/*.js" ],
+  "on_exit": "rm `find ./spec -name '*.js'` -rf"
+}
