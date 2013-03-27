@@ -11,14 +11,17 @@ define [
   'templates', 
   'app/models/task-list',
   'app/views/task-view',
-  'app/views/stats-viewmodel'
-  ], ($, _, Backbone, templates, Todos, TodoView, StatsViewModel) ->
+  'app/views/stats-viewmodel',
+  'app/domain/quick-entry-service',
+  'vendor/jquery.autosize'
+  ], ($, _, Backbone, templates, Todos, TodoView, StatsViewModel, QuickEntryService) ->
   
   class AppView extends Backbone.View
     
     # Delegated events for creating new items, and clearing completed ones.
     events:
       "keypress #new-todo": "createOnEnter"
+      "blur #new-todo": "createOnBlur"
       "click #clear-completed": "clearCompleted"
       "click #toggle-all": "toggleAllComplete"
     
@@ -34,7 +37,7 @@ define [
       if @neverPreviouslyRendered
         templates.render 'app-view', {}, (err, out) => 
           @setElement $(element).html out 
-        @input = $("#new-todo")
+        @input = $("#new-todo").autosize()
         @allCheckbox = $("#toggle-all")[0]
         @listenTo @model, "add", @addOne
         @listenTo @model, "reset", @addAll
@@ -70,12 +73,20 @@ define [
     # If you hit return in the main input field, create new **Todo** model,
     # persisting it to storage.
     createOnEnter: (e) ->
-      return  unless e.keyCode is 13
-      return  unless @input.val()
-      @model.create title: @input.val()
-      @input.val ""
+      return  unless e.keyCode is 13 && e.shiftKey
+      e.preventDefault()                #needed otherwise the CR takes effect after .val("") called creating a line 2 and leaving the cursor on it. 
+      @parseInput()
+     
+    createOnBlur: (e) ->
+      @input.focus() if @parseInput()
 
-    
+    parseInput: () ->
+      return false unless @input.val()
+      QuickEntryService.parse @input.val(), (model) => 
+        @model.create model
+      @input.val("").trigger("autosize") 
+      true
+      
     # Clear all done todo items, destroying their models.
     clearCompleted: ->
       _.invoke @model.done(), "destroy"
