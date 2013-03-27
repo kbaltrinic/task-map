@@ -9,6 +9,7 @@ require
   paths:
     jquery: 'vendor/jquery-1.9.1'
     underscore: 'vendor/underscore'
+    lodash: 'vendor/lodash'
     backbone:   'vendor/backbone'
   , ['app/views/app-view']
   , (AppView) ->

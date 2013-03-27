@@ -40,6 +40,20 @@ define ['../../../public/javascripts/app/domain/quick-entry-service'], (Service)
         it "Inputing " + JSON.stringify(scenario.input) + " should create tasks: " + JSON.stringify(scenario.output), () ->
           results = []
           Service.parse scenario.input, (task) -> results.push task
-          expect(results).toEqual scenario.output
+          expect(results).toEqual scenario.output      
 
-      
+    describe 'Indentation creates subtasks', () ->
+
+      scenarios = [
+          input: "task1\n task 1a"
+          output: [ { title : 'task1', tasks: [ { title : 'task 1a' } ] } ]
+        , 
+          input: "task1\n\ttask 1a"
+          output: [ { title : 'task1', tasks: [ { title : 'task 1a' } ] } ]
+        ]
+
+      for scenario in scenarios
+        it "Inputing " + JSON.stringify(scenario.input) + " should create tasks: " + JSON.stringify(scenario.output), () ->
+          results = []
+          Service.parse scenario.input, (task) -> results.push task
+          expect(results).toEqual scenario.output
