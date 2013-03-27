@@ -15,11 +15,13 @@ define ['../../../public/javascripts/app/domain/quick-entry-service'], (Service)
         "new lines": "\n \n"
         
       for description, input of scenarios
-        it "Inputing " + description + " should create no tasks.", () ->
-          wasCalled = false
-          Service.parse input, () -> wasCalled = true
-          expect(wasCalled).toBe false
-          
+        closure = (description, input) ->
+          it "Inputing " + description + " should create no tasks.", () ->
+            wasCalled = false
+            Service.parse input, () -> wasCalled = true
+            expect(wasCalled).toBe false
+        closure description, input
+        
     describe 'Task-per-line', () ->
 
       scenarios = [
@@ -37,23 +39,39 @@ define ['../../../public/javascripts/app/domain/quick-entry-service'], (Service)
         ]
 
       for scenario in scenarios
-        it "Inputing " + JSON.stringify(scenario.input) + " should create tasks: " + JSON.stringify(scenario.output), () ->
-          results = []
-          Service.parse scenario.input, (task) -> results.push task
-          expect(results).toEqual scenario.output      
-
+        closure = (scenario) ->
+          it "Inputing " + JSON.stringify(scenario.input) + " should create tasks: " + JSON.stringify(scenario.output), () ->
+            results = []
+            Service.parse scenario.input, (task) -> results.push task
+            expect(results).toEqual scenario.output      
+        closure scenario
+        
     describe 'Indentation creates subtasks', () ->
 
       scenarios = [
           input: "task1\n task 1a"
-          output: [ { title : 'task1', tasks: [ { title : 'task 1a' } ] } ]
+          output: [ 
+            title: 'task1'
+            tasks: [
+              title : 'task 1a' 
+            ]
+          ]
         , 
           input: "task1\n\ttask 1a"
-          output: [ { title : 'task1', tasks: [ { title : 'task 1a' } ] } ]
+          output: [ 
+            title: 'task1'
+            tasks: [
+              title : 'task 1a' 
+            ]
+          ]
         ]
 
       for scenario in scenarios
-        it "Inputing " + JSON.stringify(scenario.input) + " should create tasks: " + JSON.stringify(scenario.output), () ->
-          results = []
-          Service.parse scenario.input, (task) -> results.push task
-          expect(results).toEqual scenario.output
+        closure = (scenario)->
+          it "Inputing " + JSON.stringify(scenario.input) + " should create tasks: " + JSON.stringify(scenario.output), () ->
+            results = []
+            Service.parse scenario.input, (task) -> results.push task
+            expect(results).toEqual scenario.output
+        closure scenario
+      return
+      
