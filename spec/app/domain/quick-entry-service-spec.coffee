@@ -26,16 +26,16 @@ define ['../../../public/javascripts/app/domain/quick-entry-service'], (Service)
 
       scenarios = [
           input: "task1"
-          output: [ { title : 'task1' } ]
+          output: [ { title : 'task1' , tasks: [] } ]
         , 
           input: "\n\t task1 \t \n"
-          output: [ { title : 'task1' } ]
+          output: [ { title : 'task1' , tasks: [] } ]
         , 
           input: "task1\ntask2"
-          output: [ { title : 'task1' }, { title : 'task2' } ]
+          output: [ { title : 'task1' , tasks: [] }, { title : 'task2' , tasks: [] } ]
         ,
           input: "\t  \ntask1\n\ntask2\n  \n\t\n"
-          output: [ { title : 'task1' }, { title : 'task2' } ]
+          output: [ { title : 'task1' , tasks: [] }, { title : 'task2' , tasks: [] } ]
         ]
 
       for scenario in scenarios
@@ -54,6 +54,7 @@ define ['../../../public/javascripts/app/domain/quick-entry-service'], (Service)
             title: 'task1'
             tasks: [
               title : 'task 1a' 
+              tasks: []
             ]
           ]
         , 
@@ -62,7 +63,53 @@ define ['../../../public/javascripts/app/domain/quick-entry-service'], (Service)
             title: 'task1'
             tasks: [
               title : 'task 1a' 
+              tasks: []
             ]
+          ]
+        , 
+          input: "task1\n\ttask 1a\ntask2"
+          output: [ 
+            title: 'task1'
+            tasks: [
+              title : 'task 1a' 
+              tasks: []
+            ]
+          ,
+            title: "task2"
+            tasks: []
+          ]
+        , 
+          input: "task1\n\ task 1a\n  task 1a1\ntask2"
+          output: [ 
+            title: 'task1'
+            tasks: [
+              title : 'task 1a' 
+              tasks: [
+                title : 'task 1a1' 
+                tasks: []
+              ]
+            ]
+          ,
+            title: "task2"
+            tasks: []
+          ]
+        , 
+          input: "\ttask1\n\t\t\ttask 1a\n\t\t\t\ttask 1a1\n\t\ttask 1b\ntask2"
+          output: [ 
+            title: 'task1'
+            tasks: [
+              title : 'task 1a' 
+              tasks: [
+                title : 'task 1a1' 
+                tasks: []
+              ]
+            ,
+              title : 'task 1b'
+              tasks: []
+            ]
+          ,
+            title: "task2"
+            tasks: []
           ]
         ]
 
