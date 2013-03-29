@@ -18,5 +18,6 @@
     "jade": "0.27.7",
     "lodash": "1.0.1",
     "testem": "0.2.77"
+    "selenium-webdriver": "2.31.0"
   }
 }
