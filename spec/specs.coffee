@@ -11,7 +11,6 @@ require
     lodash: '../public/javascripts/vendor/lodash'
     backbone:   '../public/javascripts/vendor/backbone'
   , ['app/domain/quick-entry-service-spec']
-  , ['selenium/smoke-test']
   , () ->
       env = jasmine.getEnv() 
       env.addReporter new jasmine.HtmlReporter 
