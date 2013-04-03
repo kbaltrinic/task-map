@@ -18,7 +18,8 @@ exports.startServer = (config, callback) ->
     app.use express.favicon()
     app.use express.bodyParser()
     app.use express.methodOverride()
-    app.use express.compress()
+    #Commenting this out for now because it keeps crashing express 
+    #app.use express.compress()
     app.use config.server.base, app.router
     app.use express.static(config.watch.compiledDir)
 
