@@ -1,3 +1,4 @@
 # This file cause get to create the directory but keep it empty.
 # Ignore everything in this directory
 *.jar
+chromedriver
