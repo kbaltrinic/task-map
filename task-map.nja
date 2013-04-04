@@ -1,0 +1,18 @@
+{
+  "mainFile": "",
+  "venv": "",
+  "relatedProjects": [],
+  "name": "task-map",
+  "license": "Other",
+  "url": "",
+  "pythonPath": "python",
+  "preExecScript": "",
+  "programParams": "",
+  "PYTHONPATH": "",
+  "supported-extensions": [
+    ".*"
+  ],
+  "project-type": "Import from sources",
+  "postExecScript": "",
+  "description": ""
+}

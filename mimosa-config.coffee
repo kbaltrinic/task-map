@@ -185,5 +185,6 @@ exports.config = {
     archiveName: "testmap"
     configName: "config"
     outPath: "dist"
-    exclude: ["README.md","node_modules","mimosa-config.coffee","mimosa-config.js", "selenium", "testem", "testem.json", "spec", "data/*.*"]
+    exclude: ["README.md","node_modules","mimosa-config.coffee","mimosa-config.js",
+      "task-map.nja", "test", "selenium", "testem", "testem.json", "spec", "data/*.*"]
 }
