@@ -4,69 +4,69 @@ fs = require 'fs'
 class TaskListRepo
 
   DATA_FILE_NAME = 'data/task-list.json'
- 
-  _taskList = {}
-  
+
+  taskList: {}
+
   constructor: (config) ->
-    readListFromFile()
-  
-  getTaskList: (callback)-> 
+    @readListFromFile()
+
+  getTaskList: (callback)=>
     try
-      listWithEmbededIds = _.map _taskList, (task, id) ->
+      listWithEmbededIds = _.map @taskList, (task, id) ->
         _.extend {id: id}, task
       callback undefined, listWithEmbededIds
       listWithEmbededIds
     catch e
       callback e
-       
-  update: (id, task, callback) ->
+
+  update: (id, task, callback) =>
     try
-      if _taskList[id]? 
-        _taskList[id] = _.assign _taskList[id], task
-        delete _taskList[id].id
-        saveListToFile()
-        updatedTask = _.extend _taskList[id], {id: id}
+      if @taskList[id]?
+        @taskList[id] = _.assign @taskList[id], task
+        delete @taskList[id].id
+        @saveListToFile()
+        updatedTask = _.extend (_.cloneDeep @taskList[id]), {id: id}
         callback undefined, updatedTask
         updatedTask
       else
         callback TaskListRepo.NOT_FOUND
     catch e
       callback e
-    
-  add: (task, callback) ->
+
+  add: (task, callback) =>
     try
       newId = generateUUID()
-      _taskList[newId] = task
-      saveListToFile()
-      newTask = _.extend task, {id: newId}
+      @taskList[newId] = task
+      @saveListToFile()
+      newTask = _.extend (_.cloneDeep task), {id: newId}
       callback undefined, newTask
       newTask
     catch e
       callback e
 
-  delete: (id, callback) ->
+  delete: (id, callback) =>
     try
-      task = _taskList[id]
-      if task? 
-        delete _taskList[id]
-        saveListToFile()
-        callback undefined, task
+      task = @taskList[id]
+      if task?
+        delete @taskList[id]
+        @saveListToFile()
+        callback undefined, _.extend task, {id: id}
         task
       else
         callback TaskListRepo.NOT_FOUND
     catch e
       callback e
-  
-  readListFromFile = ->
+
+  readListFromFile: () =>
     fs.readFile DATA_FILE_NAME, (err, data) ->
-      if err? 
-        console.log "Error!", err 
+      if err?
+        console.log "Error!", err
       else
-        _taskList = JSON.parse data
-    
-  saveListToFile = ->
-    fs.writeFile DATA_FILE_NAME, (JSON.stringify _taskList), (err) -> console.log err
-  
+        @taskList = JSON.parse data
+
+  saveListToFile: () =>
+    fs.writeFile DATA_FILE_NAME, (JSON.stringify @taskList), (err) -> console.log err
+
   generateUUID = ->
     d = new Date().getTime()
     uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) ->
