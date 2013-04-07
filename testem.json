@@ -11,6 +11,7 @@
   },
   "launch_in_dev": ["Chrome", "Node", "Selenium"],
   "test_page": "testem/testem-with-require-js.html",
+  "on_start": "java -jar selenium/server/selenium-server-standalone-2.31.0.jar -Dwebdriver.chrome.driver=selenium/server/chromedriver",
   "before_tests": [
       "node_modules/coffee-script/bin/coffee  -cb spec/",
       "node_modules/coffee-script/bin/coffee  -cb src/"],

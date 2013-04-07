@@ -5,16 +5,8 @@ describe 'Selenium Smoke Tests', () ->
 
   server = null
 
-  it "[BEFORE ALL]", () ->
-    server = new Selenium.SeleniumServer(
-      jar: "selenium/server/selenium-server-standalone-2.31.0.jar"
-      args: ["-Dwebdriver.chrome.driver=selenium/server/chromedriver"]
-      port: 4444)
-    server.start()
-
   it "the page should load", () ->
     driver = new WebDriver.Builder().
-      usingServer(server.address()).
       withCapabilities(
         'browserName': 'chrome').
       build()
@@ -34,5 +26,3 @@ describe 'Selenium Smoke Tests', () ->
         expect(actualTitle).toEqual "Task-Map"
         driver.quit()
 
-  it "[AFTER ALL]", () ->
-    server.stop()
